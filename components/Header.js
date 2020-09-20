@@ -1,35 +1,34 @@
-import React,{useState,useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import '../public/style/components/header.css'
-import {Row,Col,Menu} from 'antd'
-import {HomeOutlined,VideoCameraOutlined,CameraOutlined} from '@ant-design/icons'
+import {Col, Menu, Row} from 'antd'
+import {HomeOutlined} from '@ant-design/icons'
 import Router from "next/router";
-import Link from "next/link"
 import axios from "axios"
 import servicePath from "../config/apiUrl";
 
 
-const Header = ()=>{
+const Header = () => {
 
 
-    const [navArray,setNavArray] = useState([]);
+    const [navArray, setNavArray] = useState([]);
     //第二个参数为空，是旨在一开始执行一次
-    useEffect(()=>{
+    useEffect(() => {
         //异步函数里面不能直接定义一个异步函数
-        const fetchData = async ()=>{
-            const result = await axios(servicePath.getTypeInfo).then(res=>{
-              return res.data.data
+        const fetchData = async () => {
+            const result = await axios(servicePath.getTypeInfo).then(res => {
+                return res.data.data
             })
             setNavArray(result)
         }
         fetchData()
-    },[])
+    }, [])
 
     //声明跳转
-    const handleClick = (e)=>{
-        if(e.key === 0){
+    const handleClick = (e) => {
+        if (e.key === 0) {
             Router.push('/index')
-        }else{
-            Router.push('/list?id=' +e.key)
+        } else {
+            Router.push('/list?id=' + e.key)
         }
     }
     return (
@@ -41,13 +40,13 @@ const Header = ()=>{
                 </Col>
                 <Col className='menu-div' xs={0} sm={0} md={14} lg={8} xl={6}>
                     <Menu mode="horizontal" onClick={handleClick}>
-                        <Menu.Item key="0" icon={<HomeOutlined />} >
+                        <Menu.Item key="0" icon={<HomeOutlined/>}>
                             首页
                         </Menu.Item>
                         {
-                            navArray.map((item)=>{
-                                return(
-                                    <Menu.Item key={item.id} icon={<HomeOutlined />}>
+                            navArray.map((item) => {
+                                return (
+                                    <Menu.Item key={item.id} icon={<HomeOutlined/>}>
                                         {item.typeName}
                                     </Menu.Item>
                                 )
